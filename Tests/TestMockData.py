@@ -1,5 +1,5 @@
 import pytest
-from MockData.CreateGraphData import create_mock_data
+from MockData.StaticTestData import create_mock_data
 from GraphCompontents.Edge import Edge
 
 """
