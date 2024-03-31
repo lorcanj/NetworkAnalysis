@@ -38,9 +38,9 @@ def test_data_creation(edges, col_names):
         for col_name in col_names[1:]:
             match col_name:
                 case "Start":
-                    assert row["Start"] == edges[i].start
+                    assert row["Start"] == edges[i].node_1
                 case "End":
-                    assert row["End"] == edges[i].end
+                    assert row["End"] == edges[i].node_2
                 case "Capacity":
                     assert row["Capacity"] == edges[i].capacity
                 case "Weight":
