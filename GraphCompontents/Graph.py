@@ -1,5 +1,5 @@
-import Node
-import random
+from .Node import Node
+from Identifiers.GenerateIdentifiers import create_id_alphabet, generate_random_id
 
 
 class Graph:
@@ -9,11 +9,6 @@ class Graph:
 
     @staticmethod
     def create_graph_id():
-        alphabet = 'abcdefghijklmnopqrstuvwxyz'
-        alphabet_upper = alphabet.upper()
-        numbers = '0123456789'
-        full_alphabet = alphabet + alphabet_upper + numbers
-        graph_id = []
-        for i in range(10):
-            graph_id.append(full_alphabet[random.randint(0, 61)])
-        return ''.join(graph_id)
+        # Graph IDs will start with the letter G
+        graph_id = ["G"]
+        return generate_random_id(create_id_alphabet(), graph_id)
