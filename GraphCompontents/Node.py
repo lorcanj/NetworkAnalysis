@@ -1,4 +1,5 @@
 from __future__ import annotations
+from Identifiers.GenerateIdentifiers import create_id_alphabet, generate_random_id
 # below used to resolve circular dependency
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -7,17 +8,34 @@ if TYPE_CHECKING:
 
 class Node:
     # the node_id should come from the graph, but means can't have nodes without a graph related to it
-    def __init__(self, graph: Graph):
+    # should have different constructors depending on whether we know the neighbours or not
+    def __init__(self, label: str = None, graph: Graph = None) -> None:
         # should be able to key the neighbours by node_id and get a reference to the neighbour
         self.neighbours = {}
+        # not sure whether it should be graph or just graph_id
         self.graph = graph
-        Node.assign_node_id(self, graph)
+        # below doesn't really seem to make sense wrt graph data with unlabeled nodes
+        # surely can't have nodes being unlabeled
+        if not label:
+            self.node_id = Node.create_node_id(self)
+        else:
+            self.node_id = label
 
-    def construct_neighbours(self, neighbours: list[Node]):
-        pass
+    def construct_neighbours(self, neighbours: list[Node], directed=False) -> None:
+        for neighbour in neighbours:
+            if neighbour.node_id not in self.neighbours.keys():
+                self.neighbours[neighbour.node_id] = neighbour
+                if not directed:
+                    neighbour.neighbours[self.node_id] = self
 
-    # this implementation means we cannot merge 2 separate graphs to create a single graph
+    # this implementation means we currently cannot merge 2 separate graphs to create a single graph
     @staticmethod
-    def assign_node_id(node: Node, graph: Graph):
-        node.node_id = graph.node_id
-        graph.node_id += 1
+    def create_node_id(node: Node) -> str:
+        # Node IDs will start with the letter N
+        node_id = ["N"]
+        return generate_random_id(create_id_alphabet(), node_id)
+
+    def get_associated_graph(self) -> str:
+        if self.graph:
+            return self.graph.graph_id
+        return ""
