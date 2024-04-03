@@ -28,14 +28,14 @@ class Node:
                 if not directed:
                     neighbour.neighbours[self.node_id] = self
 
-    # this implementation means we currently cannot merge 2 separate graphs to create a single graph
     @staticmethod
     def create_node_id(node: Node) -> str:
         # Node IDs will start with the letter N
         node_id = ["N"]
         return generate_random_id(create_id_alphabet(), node_id)
 
+    @property
     def get_associated_graph(self) -> str:
         if self.graph:
-            return self.graph.graph_id
+            return self.graph
         return ""
