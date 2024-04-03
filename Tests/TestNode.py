@@ -19,11 +19,16 @@ def create_test_nodes():
     return [n1, n2, n3, n4]
 
 
-def test_neighbours_construction(create_test_nodes: list[Node]):
+def test_neighbours_construction(create_test_nodes: list[Node], expected_neighbours_length: int):
     n1, n2, n3, n4 = create_test_nodes
 
     assert n2.node_id in n1.neighbours.keys()
     # check for undirected graph construction where nodes connected by an edge
     # should be contained in both neighbour dictionaries
     assert n1.node_id in n4.neighbours.keys()
-    assert len(n1.neighbours) == 3
+    assert len(n1.neighbours) == expected_neighbours_length
+
+
+@pytest.fixture()
+def expected_neighbours_length():
+    return 3
