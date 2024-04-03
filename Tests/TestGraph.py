@@ -10,6 +10,7 @@ def df_static_data(input_test_size) -> pd.DataFrame:
     return create_mock_data(input_test_size)
 
 
+# Mocked data contains nodes with identifiers below
 @pytest.fixture()
 def expected_nodes_length():
     return len(('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'))
