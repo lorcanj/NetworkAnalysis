@@ -23,6 +23,12 @@ def test_create_nodes_from_df(df_static_data, expected_nodes_length):
     assert len(d) == expected_nodes_length
 
 
+def test_assign_nodes_to_graph(df_static_data):
+    g = Graph()
+    d: dict[str, Node] = Graph.create_nodes_from_df(df_static_data, g)
+    assert len(g.nodes) != 0
+
+
 def test_assign_neighbours(df_static_data: pd.DataFrame, create_unique_nodes: dict[str, Node]):
     Graph.assign_neighbours(df_static_data, create_unique_nodes)
     for node in create_unique_nodes.values():

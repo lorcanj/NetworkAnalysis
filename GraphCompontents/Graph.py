@@ -2,7 +2,6 @@ from __future__ import annotations
 import pandas as pd
 import numpy as np
 from .Node import Node
-from .Edge import Edge
 from Identifiers.GenerateIdentifiers import create_id_alphabet, generate_random_id
 
 
@@ -26,11 +25,16 @@ class Graph:
             unique_starts = set(df['start'])
             for label in unique_starts:
                 unique_nodes[label] = Node(label, graph)
+                # assign the node to the graph
+                if graph:
+                    graph.nodes[label] = unique_nodes[label]
         if 'end' in df.columns:
             ends: set[str] = set(df['end'])
             unique_ends = ends - unique_starts
             for label in unique_ends:
                 unique_nodes[label] = Node(label, graph)
+                if graph:
+                    graph.nodes[label] = unique_nodes[label]
         return unique_nodes
 
     @staticmethod
