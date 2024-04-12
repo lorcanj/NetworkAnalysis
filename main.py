@@ -1,18 +1,21 @@
 import os.path
-
 import typer
-import pandas
+import pandas as pd
+from GraphCompontents.Graph import Graph
 
 app = typer.Typer()
 
 
 @app.command()
-def upload_csv():
+def create_graph():
     path: str = input("Please paste the path to your csv: ")
-    df = None
     if os.path.isfile(path):
-        df = pandas.read_csv(path)
-        print(df.values)
+        df = pd.read_csv(path)
+        g = Graph()
+        # this is a bit ugly
+        Graph.create_nodes_from_df(df, g)
+        Graph.assign_neighbours(df, g.nodes)
+        print(f'The graph with id {g.graph_id} was successfully created')
     else:
         print("We cannot find the file that you have entered")
         exit()
