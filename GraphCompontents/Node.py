@@ -35,7 +35,5 @@ class Node:
         return generate_random_id(create_id_alphabet(), node_id)
 
     @property
-    def get_associated_graph(self) -> str:
-        if self.graph:
-            return self.graph
-        return ""
+    def get_associated_graph(self) -> str | None:
+        return self.graph
