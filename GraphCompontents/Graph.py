@@ -39,18 +39,19 @@ class Graph:
 
     @staticmethod
     def assign_neighbours(df: pd.DataFrame, unique_nodes: dict[str, Node], directed=False):
-        # assume 'start' and 'end' column are in the dataframe for now
 
-        for node in unique_nodes.values():
-            # TODO: deal with directed graph later
-            if not directed:
-                start_matched = df.loc[(df['start'] == node.node_id)]
-                unique_values_from_start = start_matched['end'].unique()
-                end_matched = df.loc[df['end'] == node.node_id]
-                unique_values_from_end = end_matched['start'].unique()
-                combined = np.concatenate((unique_values_from_start, unique_values_from_end))
-                for neighbour in combined:
-                    node.neighbours[neighbour] = unique_nodes[neighbour]
+        for index, row in df.iterrows():
+            start = row['start']
+            end = row['end']
+
+            if start not in unique_nodes.keys() or end not in unique_nodes.keys():
+                continue
+
+            if start not in unique_nodes[end].neighbours:
+                unique_nodes[end].neighbours[start] = unique_nodes[start]
+
+            if end not in unique_nodes[start].neighbours:
+                unique_nodes[start].neighbours[end] = unique_nodes[end]
 
 
 if __name__ == '__main__':
