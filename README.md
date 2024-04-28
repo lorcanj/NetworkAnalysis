@@ -1,0 +1,1 @@
+A CLI tool to read and analyse graphs
