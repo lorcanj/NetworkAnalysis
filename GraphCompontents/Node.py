@@ -21,6 +21,9 @@ class Node:
         else:
             self.node_id = label
 
+    def to_dict(self):
+        return {"node_id": self.node_id}
+
     def construct_neighbours(self, neighbours: list[Node], directed=False) -> None:
         for neighbour in neighbours:
             if neighbour.node_id not in self.neighbours.keys():

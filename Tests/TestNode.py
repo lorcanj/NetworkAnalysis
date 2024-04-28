@@ -32,3 +32,10 @@ def test_neighbours_construction(create_test_nodes: list[Node], expected_neighbo
 @pytest.fixture()
 def expected_neighbours_length():
     return 3
+
+
+def test_to_dict():
+    n1 = Node("label")
+    dictionary = n1.to_dict()
+    assert len(dictionary) == 1
+    assert dictionary["node_id"] == "label"
