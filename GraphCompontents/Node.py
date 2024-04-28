@@ -24,6 +24,10 @@ class Node:
     def to_dict(self):
         return {"node_id": self.node_id}
 
+    @classmethod
+    def from_dict(cls, data):
+        return cls(data["node_id"])
+
     def construct_neighbours(self, neighbours: list[Node], directed=False) -> None:
         for neighbour in neighbours:
             if neighbour.node_id not in self.neighbours.keys():

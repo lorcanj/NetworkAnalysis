@@ -39,3 +39,11 @@ def test_to_dict():
     dictionary = n1.to_dict()
     assert len(dictionary) == 1
     assert dictionary["node_id"] == "label"
+
+
+def test_from_dict():
+    dictionary = Node("label").to_dict()
+    n1 = Node.from_dict(dictionary)
+    assert type(n1) is Node
+    assert n1.node_id == "label"
+
