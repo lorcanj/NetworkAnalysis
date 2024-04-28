@@ -17,41 +17,29 @@ class Graph:
         return generate_random_id(create_id_alphabet(), graph_id)
 
     @staticmethod
-    def create_nodes_from_df(df: pd.DataFrame, graph: Graph = None) -> dict[str, Node]:
-        unique_nodes: dict[str, Node] = {}
-        unique_starts: set[str] = set()
-
-        if 'start' in df.columns:
-            unique_starts = set(df['start'])
-            for label in unique_starts:
-                unique_nodes[label] = Node(label, graph)
-                # assign the node to the graph
-                if graph:
-                    graph.nodes[label] = unique_nodes[label]
-        if 'end' in df.columns:
-            ends: set[str] = set(df['end'])
-            unique_ends = ends - unique_starts
-            for label in unique_ends:
-                unique_nodes[label] = Node(label, graph)
-                if graph:
-                    graph.nodes[label] = unique_nodes[label]
-        return unique_nodes
-
-    @staticmethod
-    def assign_neighbours(df: pd.DataFrame, unique_nodes: dict[str, Node], directed=False):
+    def create_nodes_from_df(df: pd.DataFrame, graph):
+        created_nodes: dict[str, Node] = {}
 
         for index, row in df.iterrows():
             start = row['start']
             end = row['end']
 
-            if start not in unique_nodes.keys() or end not in unique_nodes.keys():
-                continue
+            # first create the nodes if they don't exist
+            if start not in created_nodes.keys():
+                created_nodes[start] = Node(start, graph)
 
-            if start not in unique_nodes[end].neighbours:
-                unique_nodes[end].neighbours[start] = unique_nodes[start]
+            if end not in created_nodes.keys():
+                created_nodes[end] = Node(end, graph)
 
-            if end not in unique_nodes[start].neighbours:
-                unique_nodes[start].neighbours[end] = unique_nodes[end]
+            # then add each node to the other node's neighbour dictionary
+            if start not in created_nodes[end].neighbours.keys():
+                created_nodes[end].neighbours[start] = created_nodes[start]
+
+            if end not in created_nodes[start].neighbours.keys():
+                created_nodes[start].neighbours[end] = created_nodes[end]
+
+
+
 
 
 if __name__ == '__main__':
